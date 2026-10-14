@@ -1,6 +1,6 @@
 // Blake's Match Maker service worker
 // Bump VERSION whenever you upload changed files so phones pick up the new copy.
-var VERSION = "mm-v3";
+var VERSION = "mm-v4";
 var FILES = [
   "./",
   "index.html",
