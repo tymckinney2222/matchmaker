@@ -1,6 +1,6 @@
 // Blake's Match Maker service worker
 // Bump VERSION whenever you upload changed files so phones pick up the new copy.
-var VERSION = "mm-v4";
+var VERSION = "mm-v5";
 var FILES = [
   "./",
   "index.html",
@@ -15,7 +15,12 @@ var FILES = [
 
 self.addEventListener("install", function (e) {
   e.waitUntil(
-    caches.open(VERSION).then(function (c) { return c.addAll(FILES); })
+    caches.open(VERSION).then(function (c) {
+      // Cache each file on its own so one missing file can't break the install.
+      return Promise.all(FILES.map(function (f) {
+        return c.add(f).catch(function () {});
+      }));
+    })
       .then(function () { return self.skipWaiting(); })
   );
 });
